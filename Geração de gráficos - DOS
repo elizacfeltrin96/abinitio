@@ -1,0 +1,178 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+energia = [] # Lista para os valores de energia recalculados considerando o nível de Fermi
+
+f_In_d = open('In_d.txt')  # Abre arquivo com os dados de DOS do orbital d do Índio (In)
+lines = f_In_d.readlines()
+energia_parcial = [] # Lista temporária para os valores de energia
+dos_In_d = [] # Inclui os dados de DOS do Índio (In) (orbital d) na lista
+for x in lines:
+  energia_parcial.append(x.split(' ')[0])
+  dos_In_d.append(x.split(' ')[2])
+f_In_d.close()
+
+f_In_s = open('In_s.txt') # Abre arquivo com os dados de DOS do orbital s do Índio (In)
+lines = f_In_s.readlines()
+dos_In_s = []
+for x in lines:
+  dos_In_s.append(x.split(' ')[2]) # Inclui os dados de DOS do Índio (In) (orbital s) na lista
+f_In_s.close()
+
+f_In_p = open('In_p.txt') # Abre arquivo com os dados do orbital p do Índio (In)
+lines = f_In_p.readlines() 
+dos_In_p = []
+for x in lines:
+  dos_In_p.append(x.split(' ')[2]) # Inclui os dados de DOS do Índio (In) (orbital p) na lista
+f_In_p.close()
+
+f_In_s_p_d = open('In_s_p_d.txt') # Abre arquivo com os dados da soma de DOS do Índio (In) relativas aos orbitais s, p e d
+lines = f_In_s_p_d.readlines()
+dos_In_s_p_d = []
+for x in lines:
+  dos_In_s_p_d.append(x.split(' ')[2]) # Inclui os dados de DOS do Índio (In) (orbitais s, p e d) na lista
+f_In_s_p_d.close()
+
+f_Sn_d = open('Sn_d.txt') # Inclui valores na lista para os valores de DOS do Estanho (Sn) - orbital d
+lines = f_Sn_d.readlines()
+dos_Sn_d = []
+for x in lines:
+  dos_Sn_d.append(x.split(' ')[2]) # Inclui os dados de DOS do Estanho (Sn) (orbital d) na lista
+f_Sn_d.close() 
+
+f_Sn_s = open('Sn_s.txt') # Inclui valores na lista para os valores de DOS do Estanho (Sn) - orbital s
+lines = f_Sn_s.readlines()
+dos_Sn_s = []
+for x in lines:
+  dos_Sn_s.append(x.split(' ')[2]) # Inclui os dados de DOS do Estanho (Sn) (orbital s) na lista
+f_Sn_s.close()
+
+f_Sn_p = open('Sn_p.txt') # Inclui valores na lista para os valores de DOS do Estanho (Sn) - orbital p
+lines = f_Sn_p.readlines()
+dos_Sn_p = []
+for x in lines:
+  dos_Sn_p.append(x.split(' ')[2]) # Inclui os dados de DOS do Estanho (Sn) (orbital p) na lista
+f_Sn_p.close()
+
+f_Sn_s_p_d = open('Sn_s_p_d.txt') # Abre arquivo com os dados da soma de DOS do Estanho (Sn) relativas aos orbitais s, p e d
+lines = f_Sn_s_p_d.readlines()
+dos_Sn_s_p_d = []
+for x in lines:
+  dos_Sn_s_p_d.append(x.split(' ')[2]) # Inclui os dados de DOS do Índio (In) (orbitais s, p e d) na lista
+f_Sn_s_p_d.close()
+
+f_In3Sn_total = open('In3Sn_total.txt')  # Abre arquivo com os dados de DOS total do composto In3Sn
+lines = f_In3Sn_total.readlines()
+dos_In3Sn_total = []
+for x in lines:
+  dos_In3Sn_total.append(x.split(' ')[2])  # Inclui valores na lista para a DOS total do composto In3Sn
+f_In3Sn_total.close()
+
+energia_parcial = [float(x) for x in energia_parcial] # Converte os dados da lista com os valores de energia para o tipo float
+
+# Converte os dados das listas com os valores de DOS para o tipo float
+dos_In_d = [float(x) for x in dos_In_d]
+dos_In_s = [float(x) for x in dos_In_s]
+dos_In_p = [float(x) for x in dos_In_p]
+dos_In_s_p_d = [float(x) for x in dos_In_s_p_d]
+dos_Sn_d = [float(x) for x in dos_Sn_d]
+dos_Sn_p = [float(x) for x in dos_Sn_p]
+dos_Sn_s = [float(x) for x in dos_Sn_s]
+dos_Sn_s_p_d = [float(x) for x in dos_Sn_s_p_d]
+dos_In3Sn_total = [float(x) for x in dos_In3Sn_total]
+
+for i in energia_parcial:
+  energia.append(i - 6.421) # Recalcula os valores de energia considerando o nível de Fermi (6.421 eV)
+  
+# Converte as listas com os valores de DOS para o tipo array
+energia = np.array(energia)
+dos_In_d = np.array(dos_In_d)
+dos_In_s = np.array(dos_In_s)
+dos_In_p = np.array(dos_In_p)
+dos_In_s_p_d = np.array(dos_In_s_p_d)
+dos_Sn_d = np.array(dos_Sn_d)
+dos_Sn_p = np.array(dos_Sn_p)
+dos_Sn_s = np.array(dos_Sn_s)
+dos_Sn_s_p_d = np.array(dos_Sn_s_p_d)
+dos_In3Sn_total = np.array(dos_In3Sn_total)
+
+# Multiplica os dados de DOS do Índio por 3 devido ao número de átomo sde Índio na molécula
+dos_In_d = 3*dos_In_d
+dos_In_s = 3*dos_In_s
+dos_In_p = 3*dos_In_p
+dos_In_s_p_d = 3*dos_In_s_p_d
+
+# Gráfico: In - orbital d 
+plt.figure()
+plt.xlabel('Energia (eV)')
+plt.ylabel('DOS (eV/estados)')
+plt.plot(energia, dos_In_d, 'g-')
+plt.axvline(0, color = 'k', linestyle = '--')
+
+# Gráfico: In - orbital s
+plt.figure()
+plt.xlabel('Energia (eV)')
+plt.ylabel('DOS (eV/estados)')
+plt.plot(energia, dos_In_s, 'b-')
+plt.axvline(0, color = 'k', linestyle = '--')
+
+# Gráfico: In - orbital p
+plt.figure()
+plt.xlabel('Energia (eV)')
+plt.ylabel('DOS (eV/estados)')
+plt.plot(energia, dos_In_p, 'r-')
+plt.axvline(0, color = 'k', linestyle = '--')
+
+# Gráfico: Sn - orbital d
+plt.figure()
+plt.xlabel('Energia (eV)')
+plt.ylabel('DOS (eV/estados)')
+plt.plot(energia, dos_Sn_d, 'g-')
+plt.axvline(0, color = 'k', linestyle = '--')
+
+# Gráfico: Sn - orbital s
+plt.figure()
+plt.xlabel('Energia (eV)')
+plt.ylabel('DOS (eV/estados)')
+plt.plot(energia, dos_Sn_s, 'b-')
+plt.axvline(0, color = 'k', linestyle = '--')
+
+# Gráfico: Sn - orbital p
+plt.figure()
+plt.xlabel('Energia (eV)')
+plt.ylabel('DOS (eV/estados)')
+plt.plot(energia, dos_Sn_p, 'r-')
+plt.axvline(0, color = 'k', linestyle = '--')
+
+# Gráfico: In - Total
+plt.figure()
+plt.xlabel('Energia (eV)')
+plt.ylabel('DOS (estados/eV)')
+plt.plot(energia, dos_In_s, 'b-', label = 's')
+plt.plot(energia, dos_In_p, 'r-', label = 'p')
+plt.plot(energia, dos_In_d, 'g-', label = 'd')
+plt.axvline(0, color = 'k', linestyle = '--')
+plt.plot(energia, dos_In_s_p_d, 'k-', label = 'total')
+plt.legend()
+
+# Gráfico: Sn - Total
+plt.figure()
+plt.xlabel('Energia (eV)')
+plt.ylabel('DOS (estados/eV)')
+plt.plot(energia, dos_Sn_s, 'b-', label = 's')
+plt.plot(energia, dos_Sn_p, 'r-', label = 'p')
+plt.plot(energia, dos_Sn_d, 'g-', label = 'd')
+plt.axvline(0, color = 'k', linestyle = '--')
+plt.plot(energia, dos_Sn_s_p_d, 'k-', label = 'total')
+plt.legend()
+
+# Gráfico: In3Sn - Total
+plt.figure()
+plt.xlabel('Energia (eV)')
+plt.ylabel('DOS (estados/eV)')
+plt.plot(energia, dos_Sn_s_p_d, 'r-', label = 'Sn')
+plt.plot(energia, dos_In_s_p_d, 'b-', label = 'In')
+plt.axvline(0, color = 'k', linestyle = '--')
+plt.plot(energia, dos_In3Sn_total, 'k-', label = 'Total')
+plt.legend()
