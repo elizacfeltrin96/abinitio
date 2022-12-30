@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 
 energia = [] # Lista para os valores de energia recalculados considerando o nível de Fermi
 
